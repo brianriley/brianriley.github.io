@@ -1,0 +1,10 @@
+---
+layout: default
+---
+
+<div id="home">
+  {% assign page = site.posts | first %}
+  {% assign content = page.content | markdownify %}
+  {% include post.html %}
+  <a href="/posts/">Archives</a>
+</div>

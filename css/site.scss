@@ -1,0 +1,104 @@
+@import "bootstrap";
+@import "syntax";
+
+$grey: #333;
+$lightgrey: #666;
+$extralightgrey: rgb(240,240,240);
+
+html, body {
+  font-family: Georgia, serif;
+  height: 100%;
+}
+
+html {
+  border-top: 1em solid $grey;
+}
+
+body {
+  font-size: 16px;
+  line-height: 1.5em;
+}
+
+article {
+  min-height: 100%;
+  margin-bottom: 1.5em;
+}
+
+p, .highlight {
+  margin-bottom: 1.5em;
+}
+
+header {
+  margin: 3em 0;
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+  font-weight: bold;
+  font-size: 3em;
+  margin: 1em 0 1.5em 0;
+}
+
+a {
+  color: $grey;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: none;
+  color: $lightgrey;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
+.meta, h1, h2, h3, h4, h5, h6 {
+  font-family: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
+}
+
+.meta {
+  text: {
+    align: center;
+    transform: uppercase;
+  }
+  letter-spacing: 3px;
+  font: {
+    size: 1.25em;
+  }
+  color: $lightgrey;
+}
+
+.post {
+  padding-bottom: 1.5em;
+  margin-bottom: 1.5em;
+  border-bottom: 1px solid $extralightgrey;
+}
+
+#archives {
+  text-align: center;
+
+  .post {
+    padding-bottom: 3em;
+    border-bottom: none;
+  }
+}
+
+footer {
+  padding: 1.5em 0;
+  background: $grey;
+
+  * {
+    color: white;
+  }
+
+  p {
+    float:right;
+    line-height: 32px;
+  }
+}
+
+.four-oh-four {
+  text-align: center;
+}
