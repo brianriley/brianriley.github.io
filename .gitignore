@@ -2,6 +2,3 @@
 
 _site
 .sass-cache/
-
-# compiled css files
-css/*.css
