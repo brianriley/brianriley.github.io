@@ -1,0 +1,12 @@
+---
+layout: post
+title:  "TDD is a thinking tool"
+---
+
+In high school, I had my first real introduction to programming with a class on Turbo Pascal. When we were introduced to recursion, the teacher taught us to debug by writing down on a piece of paper what we thought the values were at any given time through the loop. After a while, we learned to keep track in our heads. As programmers, this is a skill we grow: we learn to look at code and imagine what the values of variables are at any given time.
+
+And this skill carries over to when we start thinking about the design of our system. We juggle the complexity in our heads. Sometimes, not always, we forget something and introduce bugs. Most of the time, though, we are burdened by the weight of this complexity.
+
+If you read over the [three rules of TDD](http://www.butunclebob.com/ArticleS.UncleBob.TheThreeRulesOfTdd), I think one thing stands out. TDD strives for simplicity. Focus on a single feature and a single test; write no more or less code than needed to get that test to pass. This is perhaps the most uncomfortable thing about TDD: it requires a major mental shift where we learn to let go of the complexity and focus.
+
+The debate rages on as to whether TDD necessarily leads to good design or poor design. Regardless of the result, TDD is still a very powerful thinking tool for me, and until there's something to replace it---something that can give me the clarity, speed, and confidence that I get from TDD---I'll just keep TDDing.
