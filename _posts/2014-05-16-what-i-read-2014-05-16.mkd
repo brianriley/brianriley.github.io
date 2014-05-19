@@ -1,0 +1,16 @@
+---
+layout: post
+title: "What I read"
+---
+
+### [Specialization](http://roy.gbiv.com/untangled/2008/specialization)
+
+The financial demands (and dream of reward) draws a lot of different people into the tech industry. Some (a lot?) of these people aren't in it for the intellectual pursuit of programming or for the craftsmanship. Roy is not one of these people, and I read this article as a reaction to the culture of the industry---an industry driven so much by money.
+
+### [*poof* ... and then Rails was gone](http://patmaddox.com/2014/05/15/poof-and-then-rails-was-gone/)
+
+This week's #isTDDDead talk is focusing on hexagonal architecture as TDD-driven design damage. DHH used an example from a Jim Weirich talk. This is Pat Maddox's version.
+
+### [Hexagonal Architecture](http://alistair.cockburn.us/Hexagonal+architecture)
+
+And while we're discussing it, we might as well read the original description.
