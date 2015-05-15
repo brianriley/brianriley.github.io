@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "Pro tip at Coderwall"
 ---
 

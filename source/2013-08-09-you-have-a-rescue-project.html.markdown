@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "You have a rescue project"
 ---
 

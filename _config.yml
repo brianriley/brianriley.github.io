@@ -1,5 +1,0 @@
-name: Brian Riley
-rdiscount:
-  extensions: [footnotes]
-pygments: true
-permalink: /posts/:title

@@ -1,9 +1,8 @@
 ---
-layout: post
 title:  "On view and controller specs"
 ---
 
-> We don't write \[view|controller\] specs because that code is exercised by the request specs.
+> We don't write \[view\|controller\] specs because that code is exercised by the request specs.
 
 I recently converted all views on a project from ERB to HAML. There were no view specs, and I wasn't entirely confident in my understanding of the project to be sure that I wasn't going to break anything in the transition. So I went through the tedious process of adding view specs for all views. When I got to a set of partials that had only text content (terms of service, etc.), I was tired and thought that my spec for the layout views that include these partials should tell me if I broke anything.
 
