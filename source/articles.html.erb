@@ -1,0 +1,7 @@
+<article>
+  <% page_articles.each do |article| %>
+    <h2><%= link_to article.title, article %></h2>
+    <%= article.summary %>
+    <p class="meta">Published on <time><%= article.date.strftime('%b %e, %Y') %></time></p>
+  <% end %>
+</article>

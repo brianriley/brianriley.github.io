@@ -1,0 +1,43 @@
+@import "normalize";
+@import "skeleton";
+@import "syntax";
+
+body {
+  padding-top: 9rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
+.container {
+  max-width: 800px;
+  padding: 3em 0;
+}
+
+.meta {
+  @extend small;
+  color: #d1d1d1;
+  font-style: italic;
+  text-align: right;
+}
+
+article {
+  margin-bottom: 4.5em;
+}
+
+footer {
+  border-top: 1px solid #eee;
+}
+
+h6 {
+  text-transform: uppercase;
+}

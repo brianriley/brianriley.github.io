@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "TDD is a thinking tool"
 ---
 
