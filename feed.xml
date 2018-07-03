@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Blog Name</title>
+  <subtitle>Blog subtitle</subtitle>
+  <id>http://blog.url.com/</id>
+  <link href="http://blog.url.com/"/>
+  <link href="http://blog.url.com/feed.xml" rel="self"/>
+  <updated>2015-05-15T00:00:00Z</updated>
+  <author>
+    <name>Blog Author</name>
+  </author>
+  <entry>
+    <title>UUID Fields in Phoenix</title>
+    <link rel="alternate" href="http://blog.url.com/2015/05/15/uuid-fields-in-phoenix/"/>
+    <id>http://blog.url.com/2015/05/15/uuid-fields-in-phoenix/</id>
+    <published>2015-05-15T00:00:00Z</published>
+    <updated>2018-07-03T08:23:00+09:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;&lt;a href="http://www.phoenixframework.org"&gt;Phoenix&lt;/a&gt; is still a young framework. As such, you may encounter problems that no one else has or problems that are just slightly different than others. This is a story of the latter.&lt;/p&gt;
+
+&lt;p&gt;I have a model that I want to have a UUID as its &lt;code&gt;id&lt;/code&gt;. After a little searching, I came across this &lt;a href="http://stackoverflow.com/questions/30004008/setting-up-phoenix-framework-and-ecto-to-use-uuids-how-to-insert-the-generated"&gt;StackOverflow post&lt;/a&gt;. It's great—worked for me the first time. Until I added other models.&lt;/p&gt;
+
+&lt;p&gt;The changes you make to &lt;code&gt;web.ex&lt;/code&gt; in this solution force &lt;em&gt;all&lt;/em&gt; models to have UUIDs as &lt;code&gt;id&lt;/code&gt;s. It took me a while to realize that the solution to my specific problem was to move those edits to &lt;code&gt;web.ex&lt;/code&gt; into my model, but when I did that I kept getting validation errors about my UUID not being an integer. After spending a bunch of time looking into source code and chatting on IRC, I realized that I was looking at an ordering problem: the definitions of the &lt;code&gt;id&lt;/code&gt; field need to come before the &lt;code&gt;schema&lt;/code&gt; block.&lt;/p&gt;
+
+&lt;pre class="highlight elixir"&gt;&lt;code&gt;&lt;span class="k"&gt;defmodule&lt;/span&gt; &lt;span class="no"&gt;MyApp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="no"&gt;MyModel&lt;/span&gt;
+  &lt;span class="kn"&gt;use&lt;/span&gt; &lt;span class="no"&gt;MyApp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="no"&gt;Web&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:model&lt;/span&gt;
+
+  &lt;span class="c1"&gt;# The following needs to be before the schema declaration&lt;/span&gt;
+  &lt;span class="c1"&gt;# to properly take effect&lt;/span&gt;
+  &lt;span class="nv"&gt;@primary_key&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="ss"&gt;:id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="no"&gt;Ecto&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="no"&gt;UUID&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;read_after_writes:&lt;/span&gt; &lt;span class="no"&gt;true&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+  &lt;span class="nv"&gt;@foreign_key_type&lt;/span&gt; &lt;span class="no"&gt;Ecto&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="no"&gt;UUID&lt;/span&gt;
+
+  &lt;span class="n"&gt;schema&lt;/span&gt; &lt;span class="sd"&gt;"&lt;/span&gt;&lt;span class="s2"&gt;my_models"&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    &lt;span class="o"&gt;...&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And there you have it. I also left out the &lt;code&gt;before_insert MyApp.UUID, :put_uuid, []&lt;/code&gt; part, which just has the database generate the UUID for me, as it does integer &lt;code&gt;id&lt;/code&gt;s.&lt;/p&gt;
+
+&lt;p&gt;As José says in the SO post, working with UUIDs is likely to be improved in the future. This is echoed somewhat in &lt;a href="http://www.chrismccord.com/blog/2015/05/09/elixirconfeu-keynote-phoenix-takes-flight/"&gt;Chris McCord's keynote&lt;/a&gt; where he mentions that token auth for channels is a feature they're looking to add in the future. (I'm using UUIDs as tokens for auth in my application.)&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>What I read</title>
+    <link rel="alternate" href="http://blog.url.com/2014/12/19/what-i-read/"/>
+    <id>http://blog.url.com/2014/12/19/what-i-read/</id>
+    <published>2014-12-19T00:00:00Z</published>
+    <updated>2018-07-03T08:23:00+09:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;Lots of political stuff this week.&lt;/p&gt;
+
+&lt;h6 id="the-truth-about-anonymouss-activismhttpwwwthenationcomarticle190369truth-about-anonymouss-activism"&gt;&lt;a href="http://www.thenation.com/article/190369/truth-about-anonymouss-activism"&gt;The Truth About Anonymous's Activism&lt;/a&gt;&lt;/h6&gt;
+
+&lt;p&gt;Especially enjoyed the historical context at the end. Wonder when the author will be doxed.&lt;/p&gt;
+
+&lt;h6 id="reaction-to-the-sony-hack-is-beyond-the-realm-of-stupidhttpmotherboardvicecomreadreaction-to-the-sony-hack-is-beyond-the-realm-of-stupid"&gt;&lt;a href="http://motherboard.vice.com/read/reaction-to-the-sony-hack-is-beyond-the-realm-of-stupid"&gt;Reaction to the Sony Hack Is 'Beyond the Realm of Stupid'&lt;/a&gt;&lt;/h6&gt;
+
+&lt;p&gt;One of the better things I've read on the Sony hack and the reaction to it. It doesn't really matter if North Korea was the attacker: Sony can't sue them, and the US isn't going to go to war because some Sony execs were embarrassed. (I think.)&lt;/p&gt;
+
+&lt;h6 id="hollywood-hijinks-and-the-films-of-empirehttpwwwthebafflercombloghollywood-hijinks-and-the-films-of-empire"&gt;&lt;a href="http://www.thebaffler.com/blog/hollywood-hijinks-and-the-films-of-empire/"&gt;Hollywood Hijinks and the Films of Empire&lt;/a&gt;&lt;/h6&gt;
+
+&lt;p&gt;But let's say North Korea was responsible, and this is their reaction for &lt;em&gt;The Interview&lt;/em&gt;, which they say is an act of war. Crazy, right? Except let's not forget that "entertainment is a tool of American statecraft."&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>What I read</title>
+    <link rel="alternate" href="http://blog.url.com/2014/05/23/what-i-read/"/>
+    <id>http://blog.url.com/2014/05/23/what-i-read/</id>
+    <published>2014-05-23T00:00:00Z</published>
+    <updated>2018-07-03T08:23:00+09:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;h6 id="four-second-test-runshttparticlescoreyhainescompostsfour-second-tests"&gt;&lt;a href="http://articles.coreyhaines.com/posts/four-second-tests/"&gt;Four-Second Test Runs&lt;/a&gt;&lt;/h6&gt;
+
+&lt;p&gt;I don't get the "fast enough" argument. How could you not want your entire test suite to run as fast as possible? For instance, you could have your editor or IDE run your tests on each file save and &lt;em&gt;instantly&lt;/em&gt; tell you if you've broken something. Impossible unless you have a sub-second test suite.&lt;/p&gt;
+
+&lt;h6 id="mouthbreathing-machiavellis-dream-of-a-silicon-reichhttpthebafflercomblog201405mouthbreathingmachiavellis"&gt;&lt;a href="http://thebaffler.com/blog/2014/05/mouthbreathing_machiavellis"&gt;Mouthbreathing Machiavellis Dream Of A Silicon Reich&lt;/a&gt;&lt;/h6&gt;
+
+&lt;p&gt;Something about the Internet political subcultures that really bothers me. This article described it well.&lt;/p&gt;
+
+&lt;p&gt;And by the way, I've been a reader of The Baffler since the mid-90s. Great to see them coming back in force—taking on Silicon Valley now, not just Washington and Wall Street.&lt;/p&gt;
+
+&lt;h6 id="mocking-and-rubyhttpsolniceu20140522mocking-and-rubyhtml"&gt;&lt;a href="http://solnic.eu/2014/05/22/mocking-and-ruby.html"&gt;Mocking and Ruby&lt;/a&gt;&lt;/h6&gt;
+
+&lt;p&gt;"Don't mock for speed." I like this advice.&lt;/p&gt;
+
+&lt;h6 id="callbacks-are-imperative-promises-are-functional-nodes-biggest-missed-opportunityhttpsblogjcoglancom20130330callbacks-are-imperative-promises-are-functional-nodes-biggest-missed-opportunity"&gt;&lt;a href="https://blog.jcoglan.com/2013/03/30/callbacks-are-imperative-promises-are-functional-nodes-biggest-missed-opportunity/"&gt;Callbacks are imperative, promises are functional: Node's biggest missed opportunity&lt;/a&gt;&lt;/h6&gt;
+
+&lt;p&gt;Really long read. Don't let the first sentence turn you off. Great description of what "callback hell" really is: a black box that is inherently hard to test. I've always really liked the pattern matching in Erlang, and this article made me realize that you can use maps and filters to achieve the same results (e.g., with &lt;a href="http://baconjs.github.io"&gt;Bacon.js&lt;/a&gt;).&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>What I read</title>
+    <link rel="alternate" href="http://blog.url.com/2014/05/16/what-i-read/"/>
+    <id>http://blog.url.com/2014/05/16/what-i-read/</id>
+    <published>2014-05-16T00:00:00Z</published>
+    <updated>2018-07-03T08:23:00+09:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;h6 id="specializationhttproygbivcomuntangled2008specialization"&gt;&lt;a href="http://roy.gbiv.com/untangled/2008/specialization"&gt;Specialization&lt;/a&gt;&lt;/h6&gt;
+
+&lt;p&gt;The financial demands (and dream of reward) draws a lot of different people into the tech industry. Some (a lot?) of these people aren't in it for the intellectual pursuit of programming or for the craftsmanship. Roy is not one of these people, and I read this article as a reaction to the culture of the industry—an industry driven so much by money.&lt;/p&gt;
+
+&lt;h6 id="poof--and-then-rails-was-gonehttppatmaddoxcom20140515poof-and-then-rails-was-gone"&gt;&lt;a href="http://patmaddox.com/2014/05/15/poof-and-then-rails-was-gone/"&gt;&lt;em&gt;poof&lt;/em&gt; … and then Rails was gone&lt;/a&gt;&lt;/h6&gt;
+
+&lt;p&gt;This week's #isTDDDead talk is focusing on hexagonal architecture as TDD-driven design damage. DHH used an example from a Jim Weirich talk. This is Pat Maddox's version.&lt;/p&gt;
+
+&lt;h6 id="hexagonal-architecturehttpalistaircockburnushexagonalarchitecture"&gt;&lt;a href="http://alistair.cockburn.us/Hexagonal+architecture"&gt;Hexagonal Architecture&lt;/a&gt;&lt;/h6&gt;
+
+&lt;p&gt;And while we're discussing it, we might as well read the original description.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>TDD is a thinking tool</title>
+    <link rel="alternate" href="http://blog.url.com/2014/05/09/tdd-is-thinking-tool/"/>
+    <id>http://blog.url.com/2014/05/09/tdd-is-thinking-tool/</id>
+    <published>2014-05-09T00:00:00Z</published>
+    <updated>2018-07-03T08:23:00+09:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;In high school, I had my first real introduction to programming with a class on Turbo Pascal. When we were introduced to recursion, the teacher taught us to debug by writing down on a piece of paper what we thought the values were at any given time through the loop. After a while, we learned to keep track in our heads. As programmers, this is a skill we grow: we learn to look at code and imagine what the values of variables are at any given time.&lt;/p&gt;
+
+&lt;p&gt;And this skill carries over to when we start thinking about the design of our system. We juggle the complexity in our heads. Sometimes, not always, we forget something and introduce bugs. Most of the time, though, we are burdened by the weight of this complexity.&lt;/p&gt;
+
+&lt;p&gt;If you read over the &lt;a href="http://www.butunclebob.com/ArticleS.UncleBob.TheThreeRulesOfTdd"&gt;three rules of TDD&lt;/a&gt;, I think one thing stands out. TDD strives for simplicity. Focus on a single feature and a single test; write no more or less code than needed to get that test to pass. This is perhaps the most uncomfortable thing about TDD: it requires a major mental shift where we learn to let go of the complexity and focus.&lt;/p&gt;
+
+&lt;p&gt;The debate rages on as to whether TDD necessarily leads to good design or poor design. Regardless of the result, TDD is still a very powerful thinking tool for me, and until there's something to replace it—something that can give me the clarity, speed, and confidence that I get from TDD—I'll just keep TDDing.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>What I read this week</title>
+    <link rel="alternate" href="http://blog.url.com/2014/05/09/what-i-read/"/>
+    <id>http://blog.url.com/2014/05/09/what-i-read/</id>
+    <published>2014-05-09T00:00:00Z</published>
+    <updated>2018-07-03T08:23:00+09:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;I read a lot of blog posts throughout the week. This is the first in hopefully a series of posts on what I've been reading. It's intended to be a record for myself, but might also serve to give others context for where I'm coming from.&lt;/p&gt;
+
+&lt;h6 id="hybrid-sweet-spot-native-navigation-web-contenthttpssignalvnoisecomposts3743-hybrid-sweet-spot-native-navigation-web-content"&gt;&lt;a href="https://signalvnoise.com/posts/3743-hybrid-sweet-spot-native-navigation-web-content"&gt;Hybrid sweet spot: Native navigation, web content&lt;/a&gt;&lt;/h6&gt;
+
+&lt;p&gt;I may not agree with &lt;a href="http://david.heinemeierhansson.com/2014/test-induced-design-damage.html"&gt;everything&lt;/a&gt; &lt;a href="http://david.heinemeierhansson.com/2014/tdd-is-dead-long-live-testing.html"&gt;DHH says&lt;/a&gt;, but I do respect his thinking. And I like a lot of what he says about web application architecture. This article is an interesting defense of web views for mobile applications.&lt;/p&gt;
+
+&lt;h6 id="the-single-responsibility-principlehttpblog8thlightcomuncle-bob20140508singlereponsibilityprinciplehtml"&gt;&lt;a href="http://blog.8thlight.com/uncle-bob/2014/05/08/SingleReponsibilityPrinciple.html"&gt;The Single Responsibility Principle&lt;/a&gt;&lt;/h6&gt;
+
+&lt;p&gt;Uncle Bob has a great way of describing SRP, specifically with regards to the idea that modules of code should have only one reason to change. He says to think about "&lt;em&gt;who&lt;/em&gt; must the design of the program &lt;em&gt;respond&lt;/em&gt; to".&lt;/p&gt;
+
+&lt;h6 id="speeding-up-activerecord-testshttparticlescoreyhainescompostsactive-record-spec-helper"&gt;&lt;a href="http://articles.coreyhaines.com/posts/active-record-spec-helper/"&gt;Speeding Up ActiveRecord Tests&lt;/a&gt;&lt;/h6&gt;
+
+&lt;p&gt;Corey Haines loves fast tests. Who doesn't!? Most speaking and writing about fast tests focus on how to decouple your business logic from the libraries and frameworks we love to use. This isn't one of those posts. Corey shows how to test ActiveRecord models that connect to a DB faster than the default Rails way.&lt;/p&gt;
+
+&lt;h6 id="beyond-mock-objectshttpblogthecodewhisperercom20131123beyond-mock-objects"&gt;&lt;a href="http://blog.thecodewhisperer.com/2013/11/23/beyond-mock-objects/"&gt;Beyond Mock Objects&lt;/a&gt;&lt;/h6&gt;
+
+&lt;p&gt;This is one of those posts I think I'm going to want to read several times. I want this kind of thinking to become second nature. J.B. Rainsberger shows how dependency injection can be a crutch for actual design thinking. I read this article on Friday, and it was a great read in the context of the earlier DHH articles (J.B. shows how thinking about testability with no regard for design &lt;em&gt;can&lt;/em&gt; harm the design and what do do about it without giving up on TDD and testability all together) and the Uncle Bob article (the end result is code split up along SRP lines). Read those first.&lt;/p&gt;
+
+&lt;h6 id="a-rocket-to-nowherehttpidlewordscom200508arockettonowherehtm"&gt;&lt;a href="http://idlewords.com/2005/08/a_rocket_to_nowhere.htm"&gt;A Rocket To Nowhere&lt;/a&gt;&lt;/h6&gt;
+
+&lt;p&gt;Old but new to me. A longish read on the failures of the manned space program.&lt;/p&gt;
+</content>
+  </entry>
+</feed>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>UUID Fields in Phoenix | Brian Riley</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link href="/stylesheets/site.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    
+    <div class="container">
+        <article>
+  <h2><a href="/2015/05/15/uuid-fields-in-phoenix/">UUID Fields in Phoenix</a></h2>
+  <p><a href="http://www.phoenixframework.org">Phoenix</a> is still a young framework. As such, you may encounter problems that no one else has or problems that are just slightly different than others. This is a story of the latter.</p>
+
+<p>I have a model that I want to have a UUID as its <code>id</code>. After a little searching, I came across this <a href="http://stackoverflow.com/questions/30004008/setting-up-phoenix-framework-and-ecto-to-use-uuids-how-to-insert-the-generated">StackOverflow post</a>. It's great—worked for me the first time. Until I added other models.</p>
+
+<p>The changes you make to <code>web.ex</code> in this solution force <em>all</em> models to have UUIDs as <code>id</code>s. It took me a while to realize that the solution to my specific problem was to move those edits to <code>web.ex</code> into my model, but when I did that I kept getting validation errors about my UUID not being an integer. After spending a bunch of time looking into source code and chatting on IRC, I realized that I was looking at an ordering problem: the definitions of the <code>id</code> field need to come before the <code>schema</code> block.</p>
+
+<pre class="highlight elixir"><code><span class="k">defmodule</span> <span class="no">MyApp</span><span class="o">.</span><span class="no">MyModel</span>
+  <span class="kn">use</span> <span class="no">MyApp</span><span class="o">.</span><span class="no">Web</span><span class="p">,</span> <span class="ss">:model</span>
+
+  <span class="c1"># The following needs to be before the schema declaration</span>
+  <span class="c1"># to properly take effect</span>
+  <span class="nv">@primary_key</span> <span class="p">{</span><span class="ss">:id</span><span class="p">,</span> <span class="no">Ecto</span><span class="o">.</span><span class="no">UUID</span><span class="p">,</span> <span class="ss">read_after_writes:</span> <span class="no">true</span><span class="p">}</span>
+  <span class="nv">@foreign_key_type</span> <span class="no">Ecto</span><span class="o">.</span><span class="no">UUID</span>
+
+  <span class="n">schema</span> <span class="sd">"</span><span class="s2">my_models"</span> <span class="k">do</span>
+    <span class="o">...</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+
+<p>And there you have it. I also left out the <code>before_insert MyApp.UUID, :put_uuid, []</code> part, which just has the database generate the UUID for me, as it does integer <code>id</code>s.</p>
+
+<p>As José says in the SO post, working with UUIDs is likely to be improved in the future. This is echoed somewhat in <a href="http://www.chrismccord.com/blog/2015/05/09/elixirconfeu-keynote-phoenix-takes-flight/">Chris McCord's keynote</a> where he mentions that token auth for channels is a feature they're looking to add in the future. (I'm using UUIDs as tokens for auth in my application.)</p>
+
+  <p class="meta">Published on <time>May 15, 2015</time></p>
+</article>
+
+
+    <div class="u-pull-left"><a href="/2014/12/19/what-i-read/">&laquo; What I read</a></div>
+
+    </div>
+
+    <footer class="container">
+      <div class="row">
+        <div class="six columns">
+          <a href="https://github.com/brianriley"><i class="icon-github-sign icon-2x"></i></a>&nbsp;&nbsp;&nbsp;<a href="https://twitter.com/btriley"><i class="icon-twitter-sign icon-2x"></i></a>
+        </div>
+        <div class="six columns">
+          <p><a href="/">Brian</a> works on computers.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      var _gaq = [['_setAccount', 'UA-890295-2'], ['_trackPageview']];
+      (function(d, t) {
+        var g = d.createElement(t),
+        s = d.getElementsByTagName(t)[0];
+        g.async = true;
+        g.src = ('https:' == location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g, s);
+      })(document, 'script');
+    </script>
+
+    <script>
+      // Hide address bar on mobile
+      window.addEventListener("load",function() {
+        setTimeout(function(){
+          window.scrollTo(0, 0);
+        }, 0);
+      });
+    </script>
+    
+  </body>
+</html>
