@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title><%= current_article.title + ' | ' unless current_article.nil? %>Brian Riley</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= feed_tag :atom, "#{blog.options.prefix.to_s}/feed.xml", title: "Atom Feed" %>
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <%= stylesheet_link_tag 'site' %>
+  </head>
+  <body>
+    <div class="container">
+      <%= yield %>
+    </div>
+
+    <%= partial(:footer) %>
+    <%= partial(:google_analytics) %>
+    <%= partial(:mobile_script) %>
+  </body>
+</html>
