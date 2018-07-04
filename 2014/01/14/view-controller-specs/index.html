@@ -1,73 +1,17 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>On view and controller specs | Brian Riley</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/feed.xml" />
-    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-    <link href="/stylesheets/site.css" rel="stylesheet" type="text/css" />
-  </head>
-  <body>
-    
-    <div class="container">
-        <article>
-  <h2><a href="/2014/01/14/view-controller-specs/">On view and controller specs</a></h2>
-  <blockquote>
-  <p>We don't write [view|controller] specs because that code is exercised by the request specs.</p>
-</blockquote>
-
-<p>I recently converted all views on a project from ERB to HAML. There were no view specs, and I wasn't entirely confident in my understanding of the project to be sure that I wasn't going to break anything in the transition. So I went through the tedious process of adding view specs for all views. When I got to a set of partials that had only text content (terms of service, etc.), I was tired and thought that my spec for the layout views that include these partials should tell me if I broke anything.</p>
-
-<p>Well I did break something. And though the layout view specs told me that I had broken something, they weren't entirely clear which partial was causing the error. I had two choices: comb through all the partials looking for some syntax error or write view specs for the partials and smoke out the error there. I chose the latter, writing stupidly simple specs that basically confirm that the views render, and in the process, I quickly found my error.</p>
-
-<p>I think for a lot of developers (even TDDers), testing is a balancing game: we want the most coverage for the least amount of testing. We rely on request specs or cucumber features–both integration tests–or other existing specs that exercise what will be the production code we're about to write. Views and controllers shouldn't be doing much anyways, so light coverage is all we need. Or so we think.</p>
-
-<p>When we stop writing focussed unit tests, we take big steps. Often we're confident that we're not going to break anything with these steps; we've done it a million times before. But maybe we make a typo or introduce some other regression. As was the case for me, our steps are just big enough that it takes longer to track down a regression than it would have if we had been taking smaller steps. And let's not forget that our tests are no longer driving our development or design.</p>
-
-<p>Integration tests are great. They confirm that the system as a whole is wired up correctly. But they should never be relied on to get fine-grained feedback on individual objects. View and controller specs give you immediate feedback on how you're doing and guide you through your development.</p>
-
-  <p class="meta">Published on <time>Jan 14, 2014</time></p>
-</article>
-
-
-    <div class="u-pull-left"><a href="/2013/11/26/coderwall-protip/">&laquo; Pro tip at Coderwall</a></div>
-    <div class="u-pull-right"><a href="/2014/05/09/what-i-read/">What I read this week &raquo;</a></div>
-
-    </div>
-
-    <footer class="container">
-      <div class="row">
-        <div class="six columns">
-          <a href="https://github.com/brianriley"><i class="icon-github-sign icon-2x"></i></a>&nbsp;&nbsp;&nbsp;<a href="https://twitter.com/btriley"><i class="icon-twitter-sign icon-2x"></i></a>
-        </div>
-        <div class="six columns">
-          <p><a href="/">Brian</a> works on computers.</p>
-        </div>
-      </div>
-    </footer>
-
-    <script>
-      var _gaq = [['_setAccount', 'UA-890295-2'], ['_trackPageview']];
-      (function(d, t) {
-        var g = d.createElement(t),
-        s = d.getElementsByTagName(t)[0];
-        g.async = true;
-        g.src = ('https:' == location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        s.parentNode.insertBefore(g, s);
-      })(document, 'script');
-    </script>
-
-    <script>
-      // Hide address bar on mobile
-      window.addEventListener("load",function() {
-        setTimeout(function(){
-          window.scrollTo(0, 0);
-        }, 0);
-      });
-    </script>
-    
-  </body>
-</html>
+<!doctype html> <html lang=en> <head> <meta charset=utf-8> <meta http-equiv=x-ua-compatible content="ie=edge"> <title>On view and controller specs | Brian Riley</title> <meta name=viewport content="width=device-width, initial-scale=1"> <link rel=alternate type="application/atom+xml" title="Atom Feed" href="/feed.xml"/> <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel=stylesheet> <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel=stylesheet> <link href="/stylesheets/site-88b471fc.css" rel=stylesheet /> </head> <body> <div class=container> <article> <h2><a href="/2014/01/14/view-controller-specs/">On view and controller specs</a></h2> <blockquote> <p>We don't write [view|controller] specs because that code is exercised by the request specs.</p> </blockquote> <p>I recently converted all views on a project from ERB to HAML. There were no view specs, and I wasn't entirely confident in my understanding of the project to be sure that I wasn't going to break anything in the transition. So I went through the tedious process of adding view specs for all views. When I got to a set of partials that had only text content (terms of service, etc.), I was tired and thought that my spec for the layout views that include these partials should tell me if I broke anything.</p> <p>Well I did break something. And though the layout view specs told me that I had broken something, they weren't entirely clear which partial was causing the error. I had two choices: comb through all the partials looking for some syntax error or write view specs for the partials and smoke out the error there. I chose the latter, writing stupidly simple specs that basically confirm that the views render, and in the process, I quickly found my error.</p> <p>I think for a lot of developers (even TDDers), testing is a balancing game: we want the most coverage for the least amount of testing. We rely on request specs or cucumber features–both integration tests–or other existing specs that exercise what will be the production code we're about to write. Views and controllers shouldn't be doing much anyways, so light coverage is all we need. Or so we think.</p> <p>When we stop writing focussed unit tests, we take big steps. Often we're confident that we're not going to break anything with these steps; we've done it a million times before. But maybe we make a typo or introduce some other regression. As was the case for me, our steps are just big enough that it takes longer to track down a regression than it would have if we had been taking smaller steps. And let's not forget that our tests are no longer driving our development or design.</p> <p>Integration tests are great. They confirm that the system as a whole is wired up correctly. But they should never be relied on to get fine-grained feedback on individual objects. View and controller specs give you immediate feedback on how you're doing and guide you through your development.</p> <p class=meta>Published on <time>Jan 14, 2014</time></p> </article> <div class=u-pull-left><a href="/2013/11/26/coderwall-protip/">&laquo; Pro tip at Coderwall</a></div> <div class=u-pull-right><a href="/2014/05/09/what-i-read/">What I read this week &raquo;</a></div> </div> <footer class=container> <div class=row> <div class="six columns"> <a href="https://github.com/brianriley"><i class="icon-github-sign icon-2x"></i></a>&nbsp;&nbsp;&nbsp;<a href="https://twitter.com/btriley"><i class="icon-twitter-sign icon-2x"></i></a> </div> <div class="six columns"> <p><a href="/">Brian</a> works on computers.</p> </div> </div> </footer> <script>
+  var _gaq = [['_setAccount', 'UA-890295-2'], ['_trackPageview']];
+  (function(d, t) {
+    var g = d.createElement(t),
+    s = d.getElementsByTagName(t)[0];
+    g.async = true;
+    g.src = ('https:' == location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g, s);
+  })(document, 'script');
+</script> <script>
+  // Hide address bar on mobile
+  window.addEventListener("load",function() {
+    setTimeout(function(){
+      window.scrollTo(0, 0);
+    }, 0);
+  });
+</script> </body> </html>
